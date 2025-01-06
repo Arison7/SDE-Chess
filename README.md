@@ -67,6 +67,37 @@ The program was developed collaboratively by two team members. Contributions wer
       }
   }
 
+#### b. **Singleton Pattern**
+- **Usage:** The `Board` class implements the Singleton pattern to ensure only one instance of the board is used throughout the game.
+
+- **Benefit:** Guarantees that there is a single shared instance of the chessboard, avoiding multiple instances and ensuring a consistent state across the game.
+
+- **Code Example:**
+  ```java
+  class Board {
+      private static Board instance; // The single instance of Board.
+      private final Square[][] squares;
+
+      private Board() {
+          squares = new Square[8][8];
+          for (int i = 0; i < 8; i++) {
+              for (int j = 0; j < 8; j++) {
+                  squares[i][j] = new Square();
+              }
+          }
+      }
+
+      // Public method to get the single instance of the Board
+      public static Board getInstance() {
+          if (instance == null) {
+              instance = new Board(); // Create the instance if it doesn't exist
+          }
+          return instance;
+      }
+
+      // Other methods for piece movement and game logic...
+  }
+
 ## Program Features
 - **Chess Rules:** Enforces standard chess rules, including legal moves, check, checkmate, stalemate, and pawn promotion.
 - **User Input Validation:** Ensures players enter valid moves using chess notation (e.g., A2 to A3).

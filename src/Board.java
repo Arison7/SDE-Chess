@@ -1,15 +1,24 @@
 // Structural Pattern: Composite Pattern
 // Purpose: Organize board squares and pieces hierarchically.
 class Board {
+    private static Board instance; // The single instance of Board.
     private final Square[][] squares;
 
-    public Board() {
+    private Board() {
         squares = new Square[8][8];
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 squares[i][j] = new Square();
             }
         }
+    }
+
+    // Public method to get the single instance of the Board
+    public static Board getInstance() {
+        if (instance == null) {
+            instance = new Board(); // Create the instance if it doesn't exist
+        }
+        return instance;
     }
 
     public Piece getPiece(int x, int y) {

@@ -18,7 +18,7 @@ class Square {
 // Main class to run the chess game
 public class ChessGame {
     public static void main(String[] args) {
-        Board board = new Board();
+        Board board = Board.getInstance(); // Use Singleton to get the Board instance
 
         // Setup initial pieces
         for (int i = 0; i < 8; i++) {
