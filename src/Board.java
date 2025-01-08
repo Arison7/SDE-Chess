@@ -1,11 +1,15 @@
+import java.util.List;
+import java.util.ArrayList;
 // Structural Pattern: Composite Pattern
 // Purpose: Organize board squares and pieces hierarchically.
 class Board {
     private static Board instance; // The single instance of Board.
     private final Square[][] squares;
+    private List<GameObserver> observers; // List of observers to notify
 
     private Board() {
         squares = new Square[8][8];
+        observers = new ArrayList<>();
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 squares[i][j] = new Square();
@@ -21,12 +25,39 @@ class Board {
         return instance;
     }
 
+    // Add an observer to the list
+    public void addObserver(GameObserver observer) {
+        observers.add(observer);
+    }
+
+    // Remove an observer from the list
+    public void removeObserver(GameObserver observer) {
+        observers.remove(observer);
+    }
+
+    // Notify all observers about a change
+    private void notifyObservers() {
+        for (GameObserver observer : observers) {
+            observer.update(this);  // Notify observer about the board update
+        }
+    }
+
     public Piece getPiece(int x, int y) {
         return squares[x][y].getPiece();
     }
 
     public void setPiece(int x, int y, Piece piece) {
         squares[x][y].setPiece(piece);
+    }
+
+    // This method now notifies observers after the move
+    public void movePiece(Piece piece, int startX, int startY, int endX, int endY) {
+        // Simplified movement logic
+        squares[endX][endY].setPiece(piece);
+        squares[startX][startY].setPiece(null);
+        
+        // Notify observers after the move
+        notifyObservers();
     }
 
     public boolean isKingInCheck(String color) {

@@ -10,7 +10,7 @@ The program was developed collaboratively by two team members. Contributions wer
 
 ## Design Patterns
 
-### 1. Creational Patterns
+### Creational Patterns
 
 #### a. **Factory Pattern**
 
@@ -30,6 +30,40 @@ The program was developed collaboratively by two team members. Contributions wer
               default -> throw new IllegalArgumentException("Invalid piece type.");
           };
       }
+  }
+  ```
+
+  #### b. **Singleton Pattern**
+
+- **Usage:** The `Board` class implements the Singleton pattern to ensure only one instance of the board is used throughout the game.
+
+- **Benefit:** Guarantees that there is a single shared instance of the chessboard, avoiding multiple instances and ensuring a consistent state across the game.
+
+- **Code Example:**
+
+  ```java
+  class Board {
+      private static Board instance; // The single instance of Board.
+      private final Square[][] squares;
+
+      private Board() {
+          squares = new Square[8][8];
+          for (int i = 0; i < 8; i++) {
+              for (int j = 0; j < 8; j++) {
+                  squares[i][j] = new Square();
+              }
+          }
+      }
+
+      // Public method to get the single instance of the Board
+      public static Board getInstance() {
+          if (instance == null) {
+              instance = new Board(); // Create the instance if it doesn't exist
+          }
+          return instance;
+      }
+
+      // Other methods for piece movement and game logic...
   }
   ```
 
@@ -85,8 +119,73 @@ The program was developed collaboratively by two team members. Contributions wer
   }
   ```
 
-### Structural Patterns
+#### b. **Observer Pattern**
 
+- **Usage:** The `Board` class maintains a list of observers, such as the `GameLogger`, which are notified of changes to the board (e.g., after a piece is moved).
+- **Benefit:** Promotes decoupling between the board and any components that need to observe and react to changes, such as logging or UI updates. This pattern enables real-time updates without tightly coupling components.
+- **Code Example:**
+
+  ```java
+  import java.util.ArrayList;
+  import java.util.List;
+
+  // The Observer interface
+  interface Observer {
+      void update(Board board);
+  }
+
+  // Concrete Observer
+  class GameLogger implements Observer {
+      @Override
+      public void update(Board board) {
+          System.out.println("Board updated:");
+          board.display();  // Display the updated board (or log the state)
+      }
+  }
+
+  // The Subject (Board) class with Observer Pattern
+  class Board {
+      private List<Observer> observers = new ArrayList<>();
+      private final Square[][] squares;
+
+      public Board() {
+          squares = new Square[8][8];
+          for (int i = 0; i < 8; i++) {
+              for (int j = 0; j < 8; j++) {
+                  squares[i][j] = new Square();
+              }
+          }
+      }
+
+      // Methods to add and remove observers
+      public void addObserver(Observer observer) {
+          observers.add(observer);
+      }
+
+      public void removeObserver(Observer observer) {
+          observers.remove(observer);
+      }
+
+      // Notify all observers
+      public void notifyObservers() {
+          for (Observer observer : observers) {
+              observer.update(this);
+          }
+      }
+
+      // Example of moving a piece and notifying observers
+      public void movePiece(Piece piece, int startX, int startY, int endX, int endY) {
+          if (piece.canMove(startX, startY, endX, endY, this)) {
+              setPiece(endX, endY, piece);  // Move the piece
+              setPiece(startX, startY, null);  // Clear the original square
+
+              // Notify observers about the board state change
+              notifyObservers();
+          }
+      }
+  }
+
+### Structural Patterns
 #### a. **Composite Pattern**
 
 - **Usage:** The `Board` and `Square` classes implement a hierarchical structure where the board contains squares, and each square holds a piece.
@@ -105,40 +204,6 @@ The program was developed collaboratively by two team members. Contributions wer
               }
           }
       }
-  }
-  ```
-
-#### b. **Singleton Pattern**
-
-- **Usage:** The `Board` class implements the Singleton pattern to ensure only one instance of the board is used throughout the game.
-
-- **Benefit:** Guarantees that there is a single shared instance of the chessboard, avoiding multiple instances and ensuring a consistent state across the game.
-
-- **Code Example:**
-
-  ```java
-  class Board {
-      private static Board instance; // The single instance of Board.
-      private final Square[][] squares;
-
-      private Board() {
-          squares = new Square[8][8];
-          for (int i = 0; i < 8; i++) {
-              for (int j = 0; j < 8; j++) {
-                  squares[i][j] = new Square();
-              }
-          }
-      }
-
-      // Public method to get the single instance of the Board
-      public static Board getInstance() {
-          if (instance == null) {
-              instance = new Board(); // Create the instance if it doesn't exist
-          }
-          return instance;
-      }
-
-      // Other methods for piece movement and game logic...
   }
   ```
 
