@@ -207,6 +207,33 @@ The program was developed collaboratively by two team members. Contributions wer
   }
   ```
 
+  #### b. **Facade Pattern**  
+
+- **Usage:** The `ChessGameFacade` class simplifies interaction by encapsulating board setup, move validation, and game state management behind a unified interface.  
+- **Benefit:** Reduces complexity in the `ChessGame` class, improves code readability, and centralizes game logic for easier maintenance.  
+- **Code Example:**  
+
+  ```java  
+  class ChessGameFacade {  
+      private Board board;  
+      private String currentPlayer;  
+
+      public ChessGameFacade() {  
+          this.board = Board.getInstance();  
+          this.currentPlayer = "white";  
+          setupBoard();  
+      }  
+
+      private void setupBoard() {  
+          // Setup initial pieces  
+      }  
+
+      public boolean makeMove(String start, String end) {  
+          // Handle move logic  
+          return true;  
+      }  
+  }  
+
 ## Program Features
 
 - **Chess Rules:** Enforces standard chess rules, including legal moves, check, checkmate, stalemate, and pawn promotion.
