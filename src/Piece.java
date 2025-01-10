@@ -3,6 +3,7 @@
 // 1. To create different types of chess pieces dynamically.
 // 2. Helps when dealing with user input since it doesn't require parsing (In this case for promotion)
 class PieceFactory {
+    // Creates a new piece based on the type and color
     public static Piece createPiece(String type, String color) {
         switch (type.toLowerCase()) {
             case "pawn": return new Pawn(color);
@@ -31,10 +32,13 @@ abstract class Piece {
 
     public abstract String getSymbol();
 
+    // Checks if the move is valid for the piece
     public boolean canMove(int startX, int startY, int endX, int endY, Board board) {
+
         // Check out of bounds for all calls
         if (endX < 0 || endX >= 8 || endY < 0 || endY >= 8) return false;
         Piece target = board.getPiece(endX, endY);
+        
         // Protect against capturing your own piece
         if (target != null && target.getColor().equals(this.color)) return false;
         return moveStrategy.isMoveValid(startX, startY, endX, endY, board);
