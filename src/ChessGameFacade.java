@@ -37,6 +37,13 @@ class ChessGameFacade {
         int[] startCoords = parseCoordinates(start);
         int[] endCoords = parseCoordinates(end);
 
+        // check if the coordinate is on the board
+        if(!(startCoords[0] >= 0 & startCoords[0] < 8 & startCoords[1] >= 0 & startCoords[1] < 8) |
+                !(endCoords[0] >= 0 & endCoords[0] < 8 & endCoords[1] >= 0 & endCoords[1] < 8)
+        ){
+            return false;
+        }
+
         Piece piece = board.getPiece(startCoords[0], startCoords[1]);
         if (piece == null || !piece.getColor().equals(currentPlayer)) {
             return false; // Invalid move
@@ -54,6 +61,7 @@ class ChessGameFacade {
             // Undo the move
             board.setPiece(startCoords[0], startCoords[1], piece);
             board.setPiece(endCoords[0], endCoords[1], captured);
+            System.out.println("Your king is in check");
             return false;
         }
 
