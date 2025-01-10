@@ -24,17 +24,22 @@ class PawnMoveStrategy implements MoveStrategy {
     @Override
     public boolean isMoveValid(int startX, int startY, int endX, int endY, Board board) {
         boolean isWhite = board.getPiece(startX, startY).getColor().equals("white");
-        int direction = isWhite ? -1 : 1;
+        int direction = isWhite ? -1 : 1; // White moves up, black moves down
         Piece target = board.getPiece(endX, endY);
+
+        // Check if moving forward one square
         if (startY == endY && target == null) {
             boolean move = startX + direction == endX;
+
             // Check for the starting move of the pawns
             if(startX == 1 && !isWhite || startX == 6 && isWhite) {
                 move = move || startX + (direction * 2) == endX;
             }
             return move;
+
+        // Check for capturing diagonally
         } else if (Math.abs(startY - endY) == 1 && startX + direction == endX && target != null && !target.getColor().equals(board.getPiece(startX, startY).getColor())) {
-            return true; // Capture diagonally
+            return true;
         }
         return false;
     }

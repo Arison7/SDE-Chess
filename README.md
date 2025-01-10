@@ -2,11 +2,11 @@
 
 ## Introduction
 
-This project implements a text-based chess game in Java, utilizing various design patterns to enhance code structure, maintainability, and flexibility. The program allows two players to play chess with proper rules, including check, checkmate, stalemate, and pawn promotion. The design patterns applied in this project include **Creational**, **Structural**, and **Behavioral** patterns, as detailed below.
+This is a text-based chess game built in Java. The game follows standard chess rules, such as check, checkmate, stalemate, and pawn promotion. It uses design patterns to make the code easy to manage, understand, and expand. The design patterns applied in this project include **Creational**, **Structural**, and **Behavioral** patterns, as detailed below.
 
-### Collaboration
+### Teamwork
 
-The program was developed collaboratively by two team members. Contributions were balanced, with one team member focusing on implementing the game logic and structural patterns, while the other focused on the creational patterns and the main game flow. Code reviews and pair programming sessions ensured equal participation and quality improvements.
+This project was made by Lukasz Krysmalski and Hao Guo. Lukasz Krysmalski worked more on the chess rules because of the game knowledge. We divided the six design patterns between us to share the work evenly. At the end, we checked the whole code together to fix any problems and make sure everything worked well.
 
 ## Design Patterns
 
@@ -14,8 +14,8 @@ The program was developed collaboratively by two team members. Contributions wer
 
 #### a. **Factory Pattern**
 
-- **Usage:** The `PieceFactory` class creates chess pieces based on their type and color.
-- **Benefit:** Simplifies piece creation logic and ensures adherence to the Single Responsibility Principle.
+- **Usage:** Creates chess pieces like pawns or kings based on their type and color.
+- **Benefit:** Keeps the code for creating pieces neat and focused.
 - **Code Example:**
   ```java
   public class PieceFactory {
@@ -35,9 +35,9 @@ The program was developed collaboratively by two team members. Contributions wer
 
   #### b. **Singleton Pattern**
 
-- **Usage:** The `Board` class implements the Singleton pattern to ensure only one instance of the board is used throughout the game.
+- **Usage:** Ensures there is only one chessboard shared by the whole game.
 
-- **Benefit:** Guarantees that there is a single shared instance of the chessboard, avoiding multiple instances and ensuring a consistent state across the game.
+- **Benefit:** Keeps the game consistent, as all actions happen on the same board.
 
 - **Code Example:**
 
@@ -68,10 +68,11 @@ The program was developed collaboratively by two team members. Contributions wer
   ```
 
 ### Behavioral Patterns
+
 #### a. **Template Method Pattern**
 
-- **Usage:** The `Piece` class defines the core structure for piece movement, and subclasses (e.g., `King`) implement specific movement logic.
-- **Benefit:** Standardizes move validation across all pieces while allowing each piece to have its own specific movement logic.
+- **Usage:** Defines common rules for how pieces move, while allowing each piece (like a king or rook) to have its own movement logic.
+- **Benefit:** Makes sure all pieces follow the same basic rules, but still move differently.
 - **Code Example:**
 
   ```java
@@ -121,8 +122,8 @@ The program was developed collaboratively by two team members. Contributions wer
 
 #### b. **Observer Pattern**
 
-- **Usage:** The `Board` class maintains a list of observers, such as the `GameLogger`, which are notified of changes to the board (e.g., after a piece is moved).
-- **Benefit:** Promotes decoupling between the board and any components that need to observe and react to changes, such as logging or UI updates. This pattern enables real-time updates without tightly coupling components.
+- **Usage:** Lets the game notify other parts, like a logger, whenever something changes on the board.
+- **Benefit:** Keeps different parts of the game connected without mixing up their responsibilities.
 - **Code Example:**
 
   ```java
@@ -186,10 +187,11 @@ The program was developed collaboratively by two team members. Contributions wer
   }
 
 ### Structural Patterns
+
 #### a. **Composite Pattern**
 
-- **Usage:** The `Board` and `Square` classes implement a hierarchical structure where the board contains squares, and each square holds a piece.
-- **Benefit:** Facilitates board management and provides a clean way to organize components.
+- **Usage:** Organizes the board as a collection of squares, each holding a piece or being empty.
+- **Benefit:** Makes managing the board simple and structured.
 - **Code Example:**
 
   ```java
@@ -209,8 +211,8 @@ The program was developed collaboratively by two team members. Contributions wer
 
   #### b. **Facade Pattern**  
 
-- **Usage:** The `ChessGameFacade` class simplifies interaction by encapsulating board setup, move validation, and game state management behind a unified interface.  
-- **Benefit:** Reduces complexity in the `ChessGame` class, improves code readability, and centralizes game logic for easier maintenance.  
+- **Usage:** Simplifies how the game starts and runs by combining board setup, move checking, and rule enforcement in one place.  
+- **Benefit:** Makes the main game code shorter and easier to follow.
 - **Code Example:**  
 
   ```java  
@@ -236,7 +238,7 @@ The program was developed collaboratively by two team members. Contributions wer
 
 ## Program Features
 
-- **Chess Rules:** Enforces standard chess rules, including legal moves, check, checkmate, stalemate, and pawn promotion.
-- **User Input Validation:** Ensures players enter valid moves using chess notation (e.g., A2 to A3).
-- **Turn-Based Gameplay:** Alternates turns between white and black players.
-- **Game State Evaluation:** Includes methods to detect check, checkmate, and stalemate conditions.
+- **Chess Rules:** Follows real chess rules, such as valid moves and checkmate.
+- **User Input Validation:** Checks that players enter valid moves, like "A2 to A3."
+- **Turn-Based Gameplay:** Switches turns between players.
+- **Game State Evaluation:** Detects situations like check, checkmate, or stalemate.

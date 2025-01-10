@@ -10,6 +10,6 @@ public class Main {
         // Create and move pieces
         Piece king = new King("white");
         board.setPiece(0, 0, king);  // Place king at the start
-        board.movePiece(king, 0, 0, 1, 1);  // Move the King and notify observers
+        board.movePiece(king, 0, 0, 1, 1);  // Move the king and log the update
     }
 }

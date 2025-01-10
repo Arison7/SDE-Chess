@@ -1,12 +1,13 @@
 import java.util.List;
 import java.util.ArrayList;
-// Structural Pattern: Composite Pattern
-// Purpose: Organize board squares and pieces hierarchically.
-class Board {
-    private static Board instance; // The single instance of Board.
-    private final Square[][] squares;
-    private List<GameObserver> observers; // List of observers to notify
 
+// This class represents the chessboard and handles its operations.
+class Board {
+    private static Board instance; // A single instance of the chessboard (Singleton Pattern).
+    private final Square[][] squares; // The 8x8 grid of squares on the board.
+    private List<GameObserver> observers; // List of observers to notify about changes.
+
+    // Constructor initializes the board with empty squares.
     private Board() {
         squares = new Square[8][8];
         observers = new ArrayList<>();
@@ -17,7 +18,7 @@ class Board {
         }
     }
 
-    // Public method to get the single instance of the Board
+    /// Get the single instance of the board (Singleton Pattern).
     public static Board getInstance() {
         if (instance == null) {
             instance = new Board(); // Create the instance if it doesn't exist
@@ -42,24 +43,26 @@ class Board {
         }
     }
 
+    // Get the piece on a specific square.
     public Piece getPiece(int x, int y) {
         return squares[x][y].getPiece();
     }
 
+    // Place a piece on a specific square.
     public void setPiece(int x, int y, Piece piece) {
         squares[x][y].setPiece(piece);
     }
 
-    // This method now notifies observers after the move
+    // Move a piece from one square to another.
     public void movePiece(Piece piece, int startX, int startY, int endX, int endY) {
         // Simplified movement logic
-        squares[endX][endY].setPiece(piece);
-        squares[startX][startY].setPiece(null);
+        squares[endX][endY].setPiece(piece); // Place the piece on the new square.
+        squares[startX][startY].setPiece(null); // Remove the piece from the old square.
         
-        // Notify observers after the move
-        notifyObservers();
+        notifyObservers(); // Notify observers about the move.
     }
 
+    // Check if the king of a given color is in check.
     public boolean isKingInCheck(String color) {
         int kingX = -1, kingY = -1;
         // Find position of the king of the given color
@@ -88,6 +91,7 @@ class Board {
         }
         return false;
     }
+    
     // If king is in check and cannot avoid it, it's checkmate
     public boolean isCheckmate(String color) {
         return isKingInCheck(color) && canAvoidCheck(color);
